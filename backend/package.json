@@ -1,0 +1,21 @@
+{
+  "name": "wealthpulse-backend",
+  "version": "1.0.0",
+  "description": "WealthPulse - AI-powered Personal Finance & Expense Intelligence Backend API",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "@supabase/supabase-js": "^2.49.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "keywords": ["finance", "expense-tracker", "ai", "gemini", "supabase", "wealthpulse"],
+  "author": "WealthPulse Team",
+  "license": "MIT"
+}

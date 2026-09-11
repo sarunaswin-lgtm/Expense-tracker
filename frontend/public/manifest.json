@@ -1,0 +1,16 @@
+{
+  "name": "WealthPulse — AI Expense Intelligence",
+  "short_name": "WealthPulse",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080c15",
+  "theme_color": "#080c15",
+  "description": "AI-Powered Personal Finance, Impulse Waste Tracking & Reality Check",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12h-4l-3 9L9 3l-3 9H2'/></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
