@@ -1,0 +1,26 @@
+Refine the **Profile Settings** module so that it focuses **strictly on personal details**, removing the financial, currency, and AI preference fields. Provide the updated database schema, backend API endpoints, and frontend component code for the following refined requirements:
+
+### 1. Database Schema Update
+- Update or expand the `users` table to include strictly personal profile fields:
+  - `name` (string) - Full name of the user
+  - `email` (string) - User's email address
+  - `username` (string) - Unique username/handle
+  - `avatar_url` (string, optional) - Profile picture link or initials placeholder
+  - `phone_number` (string, optional) - Contact number
+
+### 2. Backend API Endpoints
+- `GET /api/user/profile`: Fetch the current user's personal details.
+- `PUT /api/user/profile`: Update the user's personal details (name, email, username, phone number) in the database.
+- `POST /api/user/avatar`: (Optional/Bonus) Endpoint to handle profile picture updates.
+
+### 3. Frontend Personal Profile Settings UI
+- A clean, responsive, card-style **Personal Details Settings Page / Tab** featuring:
+  - **Avatar Section:** Profile picture preview with an option to change/upload.
+  - **Editable Form Fields:** 
+    - Full Name input
+    - Email address input (with verification status or read-only indicator if tied to auth)
+    - Username handle
+    - Phone number input
+  - **Action Buttons:** "Save Changes" and "Cancel" buttons with loading states and success/error toast notifications.
+
+Provide the exact database schema snippet, backend route code, and frontend React component code exclusively for these personal profile settings.

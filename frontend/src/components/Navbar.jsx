@@ -11,7 +11,7 @@ import {
   Power 
 } from 'lucide-react';
 
-export function Navbar({ profile, onUpdateSalary, onResetDemo, currency, onCurrencyChange, loading }) {
+export function Navbar({ profile, onUpdateSalary, onResetDemo, currency, onCurrencyChange, loading, onOpenProfile }) {
   const [isEditingSalary, setIsEditingSalary] = useState(false);
   const [salaryInput, setSalaryInput] = useState(profile?.monthly_salary || 20000);
 
@@ -27,29 +27,47 @@ export function Navbar({ profile, onUpdateSalary, onResetDemo, currency, onCurre
   const currencySymbols = { INR: '₹', USD: '$', EUR: '€', GBP: '£' };
   const currSymbol = currencySymbols[currency] || '₹';
 
+  const getInitials = (name) => {
+    if (!name) return 'AS';
+    const parts = name.trim().split(' ');
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#080c15]/90 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* Left: User Profile Avatar & Name (Matching Banking App) */}
-        <div className="flex items-center gap-3">
+        {/* Left: User Profile Avatar & Name (Click to open Profile Settings) */}
+        <button 
+          type="button"
+          onClick={onOpenProfile}
+          className="flex items-center gap-3 text-left hover:opacity-85 transition-all group focus:outline-none"
+          title="Click to open Personal Profile Settings"
+        >
           <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 p-0.5 shadow-glow-cyan shrink-0">
-            <div className="w-full h-full bg-[#080c15] rounded-[10px] flex items-center justify-center font-bold text-xs text-cyan-400">
-              AS
-            </div>
+            {profile?.avatar_url ? (
+              <img src={profile.avatar_url} alt={profile.name} className="w-full h-full object-cover rounded-[10px]" />
+            ) : (
+              <div className="w-full h-full bg-[#080c15] rounded-[10px] flex items-center justify-center font-bold text-xs text-cyan-400">
+                {getInitials(profile?.name || 'Arunaswin S')}
+              </div>
+            )}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm sm:text-base font-bold font-heading tracking-tight text-white uppercase">
-                ARUNASWIN S
+              <span className="text-sm sm:text-base font-bold font-heading tracking-tight text-white uppercase group-hover:text-cyan-300 transition-colors">
+                {profile?.name || 'ARUNASWIN S'}
               </span>
               <span className="hidden sm:inline-block text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300">
                 Gemini 2.5
               </span>
             </div>
-            <p className="text-[10px] text-slate-400 leading-none mt-0.5">WealthPulse Banking Intelligence</p>
+            <p className="text-[10px] text-slate-400 leading-none mt-0.5 group-hover:text-slate-300">
+              @{profile?.username || 'sarunaswin'} • Profile Settings
+            </p>
           </div>
-        </div>
+        </button>
 
         {/* Right Controls */}
         <div className="flex items-center gap-2 sm:gap-3">

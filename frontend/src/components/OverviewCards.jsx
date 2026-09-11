@@ -19,7 +19,8 @@ import {
   Bot,
   Layers,
   ArrowDownCircle,
-  ArrowUpCircle
+  ArrowUpCircle,
+  User
 } from 'lucide-react';
 
 export function OverviewCards({ metrics, currency = 'INR', onOpenAddModal, onSelectTab, onTriggerRoast }) {
@@ -224,15 +225,15 @@ export function OverviewCards({ metrics, currency = 'INR', onOpenAddModal, onSel
             <span className="text-[11px] font-semibold text-slate-200 group-hover:text-cyan-300">Ledger</span>
           </button>
 
-          {/* 7. All In One */}
+          {/* 7. My Profile Settings */}
           <button
-            onClick={() => onSelectTab && onSelectTab('all')}
-            className="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-card hover:bg-slate-800 border border-white/10 hover:border-white/30 transition-all active:scale-95 group"
+            onClick={() => onSelectTab && onSelectTab('profile')}
+            className="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-card hover:bg-slate-800 border border-white/10 hover:border-blue-500/40 transition-all active:scale-95 group"
           >
-            <div className="w-11 h-11 rounded-xl bg-white/10 group-hover:bg-white/20 text-white flex items-center justify-center mb-1.5 transition-colors">
-              <Layers className="w-5 h-5" />
+            <div className="w-11 h-11 rounded-xl bg-blue-500/10 group-hover:bg-blue-500/20 text-blue-400 flex items-center justify-center mb-1.5 transition-colors">
+              <User className="w-5 h-5" />
             </div>
-            <span className="text-[11px] font-semibold text-slate-200 group-hover:text-white">All Views</span>
+            <span className="text-[11px] font-semibold text-slate-200 group-hover:text-blue-300">My Profile</span>
           </button>
 
           {/* 8. Ask Coach */}

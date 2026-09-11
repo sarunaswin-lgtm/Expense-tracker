@@ -9,6 +9,7 @@ import dashboardRoutes from './routes/dashboard.js';
 import transactionRoutes from './routes/transactions.js';
 import recurringRoutes from './routes/recurring.js';
 import aiRoutes from './routes/ai.js';
+import userRoutes from './routes/user.js';
 import { isSupabaseConfigured } from './db.js';
 
 const app = express();
@@ -44,6 +45,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/recurring', recurringRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/user', userRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

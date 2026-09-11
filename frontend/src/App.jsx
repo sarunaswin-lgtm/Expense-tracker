@@ -8,7 +8,9 @@ import { RecurringManager } from './components/RecurringManager';
 import { AddTransactionModal } from './components/AddTransactionModal';
 import { api } from './api';
 import confetti from 'canvas-confetti';
+import { ProfileSettings } from './components/ProfileSettings';
 import { 
+  User,
   Wallet, 
   Bot, 
   PieChart, 
@@ -22,6 +24,7 @@ import {
 
 const TABS = [
   { id: 'overview', label: 'Overall', icon: Wallet },
+  { id: 'profile', label: 'Profile', icon: User },
   { id: 'ai', label: 'AI Reality Check', icon: Bot, badge: 'Roast' },
   { id: 'analytics', label: 'Analytics', icon: PieChart },
   { id: 'recurring', label: 'Fixed Bills', icon: CalendarClock },
@@ -210,6 +213,7 @@ export default function App() {
         currency={currency}
         onCurrencyChange={setCurrency}
         loading={loading}
+        onOpenProfile={() => setActiveTab('profile')}
       />
 
       {/* HORIZONTAL PILL TABS BAR (Matching Mobile Banking App Navigation) */}
@@ -240,6 +244,23 @@ export default function App() {
       {/* MAIN TABBED CONTENT AREA */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         
+        {/* TAB 0: PERSONAL PROFILE SETTINGS */}
+        {(activeTab === 'profile' || activeTab === 'all') && (
+          <div className="animate-in fade-in duration-300">
+            <ProfileSettings
+              initialProfile={data?.profile}
+              onProfileUpdated={(updated) => {
+                setData(prev => ({
+                  ...prev,
+                  profile: { ...(prev?.profile || {}), ...updated }
+                }));
+                showToast('🎉 Personal profile saved successfully!');
+              }}
+              onCancel={() => setActiveTab('overview')}
+            />
+          </div>
+        )}
+
         {/* TAB 1: OVERALL */}
         {(activeTab === 'overview' || activeTab === 'all') && (
           <div className="space-y-6 animate-in fade-in duration-300">
@@ -356,13 +377,13 @@ export default function App() {
           <span className="text-[10px]">Analytics</span>
         </button>
 
-        {/* 5. Ledger */}
+        {/* 5. Profile */}
         <button
-          onClick={() => setActiveTab('transactions')}
-          className={`flex flex-col items-center gap-1 ${activeTab === 'transactions' ? 'text-cyan-400 font-bold' : 'text-slate-400'}`}
+          onClick={() => setActiveTab('profile')}
+          className={`flex flex-col items-center gap-1 ${activeTab === 'profile' ? 'text-blue-400 font-bold' : 'text-slate-400'}`}
         >
-          <Receipt className="w-5 h-5" />
-          <span className="text-[10px]">Ledger</span>
+          <User className="w-5 h-5" />
+          <span className="text-[10px]">Profile</span>
         </button>
 
       </nav>

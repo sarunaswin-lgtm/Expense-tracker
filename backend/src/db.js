@@ -40,8 +40,12 @@ if (isSupabaseConfigured) {
 const INITIAL_DEMO_DATA = {
   profile: {
     id: '00000000-0000-0000-0000-000000000001',
-    email: 'user@wealthpulse.app',
-    monthly_salary: 65000,
+    name: 'Arunaswin S',
+    email: 'arunaswin@wealthpulse.app',
+    username: 'sarunaswin',
+    avatar_url: '',
+    phone_number: '+91 98765 43210',
+    monthly_salary: 20000,
     currency: 'INR',
     savings_goal_percent: 25,
     created_at: new Date().toISOString()

@@ -74,5 +74,16 @@ export const api = {
     method: 'POST',
     body: JSON.stringify({ question })
   }),
-  checkHealth: () => request('/api/health')
+  checkHealth: () => request('/api/health'),
+
+  // Personal Profile (Strictly Personal Details)
+  getUserProfile: () => request('/api/user/profile'),
+  updateUserProfile: (profileData) => request('/api/user/profile', {
+    method: 'PUT',
+    body: JSON.stringify(profileData)
+  }),
+  updateUserAvatar: (avatarUrl) => request('/api/user/avatar', {
+    method: 'POST',
+    body: JSON.stringify({ avatar_url: avatarUrl })
+  })
 };

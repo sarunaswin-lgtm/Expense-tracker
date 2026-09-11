@@ -8,16 +8,26 @@
 -- 1. Enable UUID Extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- 2. User Profiles Table (Stores user salary, currency, preferences)
+-- 2. User Profiles Table (Stores personal details and account settings)
 CREATE TABLE IF NOT EXISTS profiles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL DEFAULT 'Arunaswin S',
     email TEXT UNIQUE NOT NULL,
+    username VARCHAR(50) DEFAULT 'sarunaswin',
+    avatar_url TEXT,
+    phone_number VARCHAR(25) DEFAULT '+91 98765 43210',
     monthly_salary NUMERIC(12, 2) NOT NULL DEFAULT 50000.00,
     currency VARCHAR(10) NOT NULL DEFAULT 'INR',
     savings_goal_percent NUMERIC(5, 2) NOT NULL DEFAULT 20.00,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
+-- Migration query if table already exists in Supabase:
+-- ALTER TABLE profiles ADD COLUMN IF NOT EXISTS name TEXT DEFAULT 'Arunaswin S';
+-- ALTER TABLE profiles ADD COLUMN IF NOT EXISTS username VARCHAR(50) DEFAULT 'sarunaswin';
+-- ALTER TABLE profiles ADD COLUMN IF NOT EXISTS avatar_url TEXT;
+-- ALTER TABLE profiles ADD COLUMN IF NOT EXISTS phone_number VARCHAR(25) DEFAULT '+91 98765 43210';
 
 -- 3. Transactions Table (Income, Expenses, with the signature "is_waste" tag)
 CREATE TABLE IF NOT EXISTS transactions (
