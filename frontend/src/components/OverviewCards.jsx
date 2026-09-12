@@ -23,7 +23,7 @@ import {
   User
 } from 'lucide-react';
 
-export function OverviewCards({ metrics, currency = 'INR', onOpenAddModal, onSelectTab, onTriggerRoast }) {
+export function OverviewCards({ metrics, loading, currency = 'INR', onOpenAddModal, onSelectTab, onTriggerRoast }) {
   const [showBalance, setShowBalance] = useState(true);
   const currencySymbols = { INR: '₹', USD: '$', EUR: '€', GBP: '£' };
   const sym = currencySymbols[currency] || '₹';
@@ -50,6 +50,7 @@ export function OverviewCards({ metrics, currency = 'INR', onOpenAddModal, onSel
 
   const formatAmount = (val) => {
     if (!showBalance) return '••••••';
+    if (loading && !metrics) return '...';
     return `${sym}${Number(val).toLocaleString()}`;
   };
 
@@ -71,7 +72,14 @@ export function OverviewCards({ metrics, currency = 'INR', onOpenAddModal, onSel
             </div>
             <div>
               <span className="text-xs font-semibold uppercase tracking-widest text-blue-100">Overall Account</span>
-              <h2 className="text-base font-bold font-heading leading-tight">Financial Intelligence</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-base font-bold font-heading leading-tight">Financial Intelligence</h2>
+                {loading && (
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/20 animate-pulse text-blue-100 font-medium">
+                    Syncing...
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 

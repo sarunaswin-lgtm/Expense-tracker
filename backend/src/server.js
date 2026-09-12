@@ -23,6 +23,14 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Normalize multiple slashes in URL path (e.g. //api/dashboard -> /api/dashboard)
+app.use((req, res, next) => {
+  if (req.url) {
+    req.url = req.url.replace(/\/{2,}/g, '/');
+  }
+  next();
+});
+
 // Request logger
 app.use((req, res, next) => {
   console.log(`[${new Date().toLocaleTimeString()}] ${req.method} ${req.originalUrl}`);

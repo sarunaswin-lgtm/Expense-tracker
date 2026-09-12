@@ -1,8 +1,10 @@
 // WealthPulse Unified API Client
-const API_BASE = import.meta.env.VITE_API_URL || '';
+const rawBase = (import.meta.env.VITE_API_URL || '').trim();
+const API_BASE = rawBase.replace(/\/+$/, '');
 
 async function request(endpoint, options = {}) {
-  const url = `${API_BASE}${endpoint}`;
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${API_BASE}${cleanEndpoint}`;
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -13,13 +15,24 @@ async function request(endpoint, options = {}) {
 
   try {
     const res = await fetch(url, config);
-    const data = await res.json();
+    let data;
+    const contentType = res.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      const text = await res.text();
+      if (!res.ok) {
+        throw new Error(`Server returned ${res.status}: ${text.slice(0, 100)}`);
+      }
+      data = { text };
+    }
+
     if (!res.ok) {
       throw new Error(data.error || `HTTP error ${res.status}`);
     }
     return data;
   } catch (err) {
-    console.error(`API Error on ${endpoint}:`, err);
+    console.error(`API Error on ${cleanEndpoint}:`, err);
     throw err;
   }
 }

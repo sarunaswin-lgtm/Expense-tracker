@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Activity, 
   Sparkles, 
@@ -14,6 +14,12 @@ import {
 export function Navbar({ profile, onUpdateSalary, onResetDemo, currency, onCurrencyChange, loading, onOpenProfile }) {
   const [isEditingSalary, setIsEditingSalary] = useState(false);
   const [salaryInput, setSalaryInput] = useState(profile?.monthly_salary || 20000);
+
+  useEffect(() => {
+    if (profile?.monthly_salary !== undefined && profile?.monthly_salary !== null) {
+      setSalaryInput(profile.monthly_salary);
+    }
+  }, [profile?.monthly_salary]);
 
   const handleSalarySave = (e) => {
     e.preventDefault();

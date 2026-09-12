@@ -38,6 +38,7 @@ export default function App() {
   const [currency, setCurrency] = useState('INR');
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'ai' | 'analytics' | 'recurring' | 'transactions' | 'all'
   const [loading, setLoading] = useState(true);
+  const [connectionError, setConnectionError] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [coachLoading, setCoachLoading] = useState(false);
   const [realityCheck, setRealityCheck] = useState(null);
@@ -53,6 +54,7 @@ export default function App() {
   const fetchData = async () => {
     try {
       setLoading(true);
+      setConnectionError(false);
       const [sumRes, txRes] = await Promise.all([
         api.getSummary(),
         api.getTransactions()
@@ -67,7 +69,8 @@ export default function App() {
       }
     } catch (err) {
       console.error('Failed to load data:', err);
-      showToast('⚠️ Could not connect to WealthPulse API. Make sure backend is running.');
+      setConnectionError(true);
+      showToast('⚠️ Cloud server is waking up. Tap Retry in a moment.');
     } finally {
       setLoading(false);
     }
@@ -244,6 +247,27 @@ export default function App() {
       {/* MAIN TABBED CONTENT AREA */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         
+        {/* Cloud Server Cold Start Notice */}
+        {connectionError && (
+          <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-amber-200 text-xs shadow-lg animate-in fade-in">
+            <div className="flex items-center gap-2.5">
+              <span className="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+                <Flame className="w-4 h-4" />
+              </span>
+              <span>
+                <strong>Connecting to Cloud Server:</strong> Render free services sleep when inactive and require ~20–30s to boot on initial request.
+              </span>
+            </div>
+            <button
+              onClick={fetchData}
+              disabled={loading}
+              className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 shrink-0"
+            >
+              <span>{loading ? 'Waking up...' : 'Retry Connection'}</span>
+            </button>
+          </div>
+        )}
+
         {/* TAB 0: PERSONAL PROFILE SETTINGS */}
         {(activeTab === 'profile' || activeTab === 'all') && (
           <div className="animate-in fade-in duration-300">
@@ -266,6 +290,7 @@ export default function App() {
           <div className="space-y-6 animate-in fade-in duration-300">
             <OverviewCards
               metrics={data?.metrics}
+              loading={loading}
               currency={currency}
               onOpenAddModal={() => setIsAddModalOpen(true)}
               onSelectTab={setActiveTab}
